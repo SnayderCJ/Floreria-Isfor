@@ -31,10 +31,17 @@
                         <label for="id_password" class="form-label fw-bold text-muted">
                             <i class="fas fa-lock me-1"></i> Contraseña
                         </label>
-                        <input type="password" name="password" id="id_password" 
-                               class="form-control form-control-lg border-2" 
-                               style="border-color: #ffe0e9; border-radius: 12px;" 
-                               placeholder="••••••••" required>
+                        <div class="input-group">
+                            <input type="password" name="password" id="id_password" 
+                                   class="form-control form-control-lg border-2" 
+                                   style="border-color: #ffe0e9; border-radius: 12px 0 0 12px; border-right: none;" 
+                                   placeholder="••••••••" required>
+                            
+                            <span class="input-group-text bg-white border-2" id="togglePassword" 
+                                  style="border-color: #ffe0e9; border-radius: 0 12px 12px 0; border-left: none; cursor: pointer;">
+                                <i class="fas fa-eye text-muted" id="eyeIcon"></i>
+                            </span>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-lg w-100 shadow-sm fw-bold" 
@@ -59,10 +66,32 @@
         background-color: var(--rosa-oscuro) !important;
         transform: translateY(-2px);
     }
+
     /* Estilo para los inputs al hacer clic */
     .form-control:focus {
+        border-color: var(--rosa-floral) !important;
+        box-shadow: none;
+    }
+
+    /* Sincroniza el color del borde del ojito cuando el input tiene foco */
+    .input-group:focus-within .form-control,
+    .input-group:focus-within .input-group-text {
         border-color: var(--rosa-floral) !important;
         box-shadow: 0 0 0 0.25rem rgba(255, 133, 162, 0.25);
     }
 </style>
+
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#id_password');
+    const eyeIcon = document.querySelector('#eyeIcon');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+    });
+</script>
 {% endblock %}
