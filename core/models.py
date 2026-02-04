@@ -3,11 +3,17 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 import urllib.parse
 from django.conf import settings
+from django.utils.text import slugify
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100)
     # Ejemplo: 'Ramos', 'Cajas de Rosas', 'Funerarios'
     slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Categorías"
